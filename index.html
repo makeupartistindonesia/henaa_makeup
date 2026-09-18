@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elegance MUA - Booking Jasa Makeup</title>
+    <title>Henaa MUA - Booking Jasa Makeup</title>
     
     <!-- Google Fonts: Playfair Display for elegant headings, Inter for clean body text -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
+    <!-- Leaflet CSS (Peta Interaktif) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -43,18 +46,22 @@
         }
     </script>
     <style>
-        /* Custom Styles for extra elegance */
+        /* Custom Styles for extra Henaa */
         .img-grayscale {
-            filter: grayscale(100%);
             transition: filter 0.5s ease, transform 0.5s ease;
         }
         .img-grayscale:hover {
-            filter: grayscale(20%);
             transform: scale(1.03);
         }
         .glass-nav {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
+        }
+        /* Style khusus peta agar kontras di form gelap */
+        #map {
+            height: 260px;
+            width: 100%;
+            z-index: 10;
         }
     </style>
 </head>
@@ -69,7 +76,7 @@
                     <svg class="w-8 h-8 text-mono-900" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
                     </svg>
-                    <span class="font-serif text-2xl font-bold tracking-wider uppercase text-mono-900">Elegance<span class="font-light">MUA</span></span>
+                    <span class="font-serif text-2xl font-bold tracking-wider uppercase text-mono-900">Henaa<span class="font-light"> MUA</span></span>
                 </div>
                 
                 <!-- Desktop Menu -->
@@ -90,7 +97,7 @@
             </div>
         </div>
 
-        <!-- Mobile Menu (Hidden by default) -->
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-mono-200">
             <div class="px-4 pt-2 pb-4 space-y-1">
                 <a href="#tentang" class="block px-3 py-3 text-base font-medium text-mono-700 hover:text-mono-900 hover:bg-mono-50 uppercase tracking-wider">Tentang</a>
@@ -102,13 +109,10 @@
 
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center bg-mono-900 bg-floral-pattern-dark overflow-hidden pt-20">
-        <!-- Overlay for better text readability -->
         <div class="absolute inset-0 bg-gradient-to-b from-transparent to-mono-900/90 pointer-events-none"></div>
         
         <div class="relative z-10 text-center px-4 sm:px-6 lg:px-8 w-full max-w-4xl mx-auto flex flex-col items-center">
-            <!-- Decorative Floral Top -->
             <svg class="w-16 h-16 text-white/70 mb-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
-                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4V7z" stroke-linecap="round" stroke-linejoin="round" class="hidden"/>
                 <path d="M12 3v18M3 12h18M5.636 5.636l12.728 12.728M5.636 18.364l12.728-12.728" stroke-linecap="round"/>
                 <circle cx="12" cy="12" r="3" fill="currentColor"/>
             </svg>
@@ -137,8 +141,7 @@
                 <!-- Image Side -->
                 <div class="w-full md:w-1/2 relative">
                     <div class="absolute -inset-4 border border-mono-900 z-0 hidden md:block"></div>
-                    <img src="https://images.unsplash.com/photo-1512496015851-a1c814b78099?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Makeup Artist at work" class="w-full h-auto object-cover z-10 relative img-grayscale shadow-xl">
-                    <!-- Floral corner decoration -->
+                    <img src="https://lh3.googleusercontent.com/d/1_2LMu8UhrXYx2TINoGtjBiBk2PUohSBA" alt="Makeup Artist at work" class="w-full h-auto object-cover z-10 relative img-grayscale shadow-xl">
                     <div class="absolute -bottom-6 -right-6 z-20 text-mono-900 bg-white p-2 border border-mono-200 shadow-sm rounded-full">
                         <svg class="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke-linejoin="round"/>
@@ -155,7 +158,7 @@
                         Seni Merias, <br><span class="italic text-mono-600">Menyingkap Kecantikan Sejati.</span>
                     </h3>
                     <p class="text-mono-600 mb-6 leading-relaxed text-justify">
-                        Di Elegance MUA, kami percaya bahwa setiap wajah adalah kanvas yang unik. Fokus kami bukan untuk mengubah, melainkan untuk mempertegas karakter dan kecantikan alami yang Anda miliki. Berbasis di <strong class="text-mono-900 font-medium">Kota Sukabumi</strong>, dengan pendekatan personal dan teknik profesional, kami menghadirkan riasan yang tahan lama, elegan, dan berkelas.
+                        Di Henaa MUA, kami percaya bahwa setiap wajah adalah kanvas yang unik. Fokus kami bukan untuk mengubah, melainkan untuk mempertegas karakter dan kecantikan alami yang Anda miliki. Berbasis di <strong class="text-mono-900 font-medium">Kota Sukabumi</strong>, dengan pendekatan personal dan teknik profesional, kami menghadirkan riasan yang tahan lama, elegan, dan berkelas.
                     </p>
                     <p class="text-mono-600 mb-8 leading-relaxed text-justify">
                         Melayani berbagai kebutuhan mulai dari pernikahan, pertunangan, wisuda, hingga acara spesial lainnya. Kami menggunakan produk kosmetik premium terpilih untuk memastikan hasil akhir yang sempurna.
@@ -186,44 +189,38 @@
 
             <!-- Grid Galeri -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-                <!-- Item 1 -->
                 <div class="overflow-hidden relative group cursor-pointer aspect-[3/4]">
-                    <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Wedding Makeup" class="w-full h-full object-cover img-grayscale">
+                    <img src="https://lh3.googleusercontent.com/d/1qexJQE3Jgyq0bwlZBRic6m9FP8u3Ey58" alt="Wedding Makeup" class="w-full h-full object-cover img-grayscale">
                     <div class="absolute inset-0 bg-mono-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <span class="text-white font-serif italic text-xl tracking-wide border-b border-white pb-1">Wedding Looks</span>
                     </div>
                 </div>
-                <!-- Item 2 -->
                 <div class="overflow-hidden relative group cursor-pointer aspect-[3/4]">
-                    <img src="https://images.unsplash.com/photo-1519415943484-9fa1873496d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Engagement Makeup" class="w-full h-full object-cover img-grayscale">
+                    <img src="https://lh3.googleusercontent.com/d/1GwgKJokl-gYUofwLfWRWuOcoMMaUAGsK" alt="Engagement Makeup" class="w-full h-full object-cover img-grayscale">
                     <div class="absolute inset-0 bg-mono-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <span class="text-white font-serif italic text-xl tracking-wide border-b border-white pb-1">Engagement</span>
                     </div>
                 </div>
-                <!-- Item 3 -->
                 <div class="overflow-hidden relative group cursor-pointer aspect-[3/4]">
-                    <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Graduation Makeup" class="w-full h-full object-cover img-grayscale">
+                    <img src="https://lh3.googleusercontent.com/d/1INx0o_HXWimFwffHIOXwUFK6MLxK8ggb" alt="Graduation Makeup" class="w-full h-full object-cover img-grayscale">
                     <div class="absolute inset-0 bg-mono-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <span class="text-white font-serif italic text-xl tracking-wide border-b border-white pb-1">Graduation</span>
                     </div>
                 </div>
-                <!-- Item 4 -->
                 <div class="overflow-hidden relative group cursor-pointer aspect-[3/4]">
-                    <img src="https://images.unsplash.com/photo-1616683693504-3ea7e9ad6fec?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Glamour Makeup" class="w-full h-full object-cover img-grayscale">
+                    <img src="https://lh3.googleusercontent.com/d/1HjJ0L6a4mriTxBtmV9lGls_wySC2Mod_" alt="Glamour Makeup" class="w-full h-full object-cover img-grayscale">
                     <div class="absolute inset-0 bg-mono-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <span class="text-white font-serif italic text-xl tracking-wide border-b border-white pb-1">Glamour Party</span>
                     </div>
                 </div>
-                <!-- Item 5 -->
                 <div class="overflow-hidden relative group cursor-pointer aspect-[3/4]">
-                    <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Natural Makeup" class="w-full h-full object-cover img-grayscale">
+                    <img src="https://lh3.googleusercontent.com/d/12bD2MuQodTHRj0JDyoeAboDbrotav0Pv" alt="Natural Makeup" class="w-full h-full object-cover img-grayscale">
                     <div class="absolute inset-0 bg-mono-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <span class="text-white font-serif italic text-xl tracking-wide border-b border-white pb-1">Flawless Natural</span>
                     </div>
                 </div>
-                <!-- Item 6 -->
                 <div class="overflow-hidden relative group cursor-pointer aspect-[3/4]">
-                    <img src="https://images.unsplash.com/photo-1503236823255-94609f598e71?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Editorial Makeup" class="w-full h-full object-cover img-grayscale">
+                    <img src="https://lh3.googleusercontent.com/d/11soPiFJ-yc3kfGgNZtH4b7OE0M3rLXtm" alt="Editorial Makeup" class="w-full h-full object-cover img-grayscale">
                     <div class="absolute inset-0 bg-mono-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <span class="text-white font-serif italic text-xl tracking-wide border-b border-white pb-1">Editorial Style</span>
                     </div>
@@ -236,7 +233,6 @@
     <section id="booking" class="py-24 bg-mono-900 text-white bg-floral-pattern-dark relative border-t-8 border-mono-200">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-mono-800 p-8 sm:p-12 shadow-2xl border border-mono-700 relative overflow-hidden">
-                <!-- Floral Background Decal inside form -->
                 <svg class="absolute -top-20 -right-20 w-64 h-64 text-mono-700/30" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v4h4v2h-4v4h-2v-4H7v-2h4V7z"/>
                 </svg>
@@ -278,9 +274,25 @@
                                 <option value="party">Pesta / Photoshoot</option>
                             </select>
                         </div>
+                        <div>
+                            <label for="instagram" class="block text-xs uppercase tracking-widest text-mono-300 mb-2">Instagram</label>
+                            <input type="text" id="instagram" required class="w-full bg-transparent border-b border-mono-600 focus:border-white py-2 text-white outline-none transition-colors" placeholder="Masukkan Instagram Anda">
+                        </div>
+                        <div>
+                            <label for="alamat" class="block text-xs uppercase tracking-widest text-mono-300 mb-2">Alamat Lengkap</label>
+                            <input type="text" id="alamat" required class="w-full bg-transparent border-b border-mono-600 focus:border-white py-2 text-white outline-none transition-colors" placeholder="Masukkan Alamat Anda">
+                        </div>
                     </div>
 
-                    <!-- Pesan -->
+                    <!-- PETA INTERAKTIF SEBELUM PESAN & DETAIL -->
+                    <div>
+                        <label class="block text-xs uppercase tracking-widest text-mono-300 mb-1">Pilih Titik Lokasi Acara di Peta</label>
+                        <p class="text-xs text-mono-400 mb-2">Klik atau geser penanda (pin) di peta bawah ini untuk menandai lokasi rumah / venue acara:</p>
+                        <div id="map" class="border border-mono-600 shadow-inner"></div>
+                        <p id="locationStatus" class="text-xs text-mono-400 mt-2 font-mono">Titik Lokasi Terpilih: Kota Sukabumi (-6.9214, 106.9275)</p>
+                    </div>
+
+                    <!-- Pesan & Detail -->
                     <div>
                         <label for="message" class="block text-xs uppercase tracking-widest text-mono-300 mb-2">Pesan & Detail (Opsional)</label>
                         <textarea id="message" rows="3" class="w-full bg-transparent border-b border-mono-600 focus:border-white py-2 text-white outline-none transition-colors resize-none" placeholder="Ceritakan sedikit tentang tema acara atau request khusus Anda..."></textarea>
@@ -289,11 +301,10 @@
                     <!-- Submit Button -->
                     <div class="text-center pt-4">
                         <button type="submit" class="w-full md:w-auto px-10 py-4 bg-white text-mono-900 font-semibold uppercase tracking-widest text-sm hover:bg-mono-200 transition-colors shadow-lg border border-transparent hover:border-mono-500 flex items-center justify-center gap-2 mx-auto">
-                            <!-- WhatsApp Icon -->
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                             </svg>
-                            Kirim ke WhatsAppa
+                            Kirim ke WhatsApp
                         </button>
                     </div>
                 </form>
@@ -305,33 +316,28 @@
     <footer class="bg-mono-950 text-mono-400 py-12 border-t border-mono-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
             <div class="text-center md:text-left">
-                <span class="font-serif text-xl font-bold tracking-wider uppercase text-white block mb-2">Elegance<span class="font-light">MUA</span></span>
+                <span class="font-serif text-xl font-bold tracking-wider uppercase text-black block mb-2">Henaa<span class="font-light">MUA</span></span>
                 <p class="text-xs mb-1">Kecantikan dalam Nuansa Monokrom..</p>
-                <p class="text-xs text-mono-500">Berbasis di Kota Sukabumi, Jawa Barat</p>
+                <p class="text-xs text-mono-500">Kota Sukabumi, Jawa Barat</p>
             </div>
             
             <div class="flex space-x-6">
-                <!-- Instagram Icon -->
-                <a href="#" class="text-mono-400 hover:text-white transition-colors">
+                <a href="https://www.instagram.com/henaa_makeup" class="text-mono-400 hover:text-white transition-colors">
                     <span class="sr-only">Instagram</span>
                     <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
                     </svg>
                 </a>
-                <!-- WhatsApp Icon -->
-                <a href="#" class="text-mono-400 hover:text-white transition-colors">
-                    <span class="sr-only">WhatsApp</span>
-                    <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-                    </svg>
-                </a>
             </div>
             
             <p class="text-xs text-mono-500">
-                &copy; 2026 Elegance MUA. All rights reserved.
+                &copy; 2026 Henaa MUA. All rights reserved.
             </p>
         </div>
     </footer>
+
+    <!-- Leaflet JS (Library Peta) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- JavaScript Interactions -->
     <script>
@@ -343,14 +349,13 @@
             menu.classList.toggle('hidden');
         });
 
-        // Close mobile menu on link click
         document.querySelectorAll('#mobile-menu a').forEach(link => {
             link.addEventListener('click', () => {
                 menu.classList.add('hidden');
             });
         });
 
-        // Navbar Scroll Effect (Blur & Border)
+        // Navbar Scroll Effect
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
@@ -362,40 +367,73 @@
             }
         });
 
-        // WhatsApp Form Submission Logic
+        // --- INISIALISASI PETA INTERAKTIF (Kota Sukabumi) ---
+        const defaultLat = -6.9214;
+        const defaultLng = 106.9275;
+        
+        const map = L.map('map').setView([defaultLat, defaultLng], 14);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        let marker = L.marker([defaultLat, defaultLng], { draggable: true }).addTo(map);
+        let selectedMapsUrl = `https://www.google.com/maps?q=${defaultLat},${defaultLng}`;
+
+        function updateLocation(lat, lng) {
+            selectedMapsUrl = `https://www.google.com/maps?q=${lat.toFixed(6)},${lng.toFixed(6)}`;
+            document.getElementById('locationStatus').innerText = `Titik Lokasi Terpilih: (${lat.toFixed(5)}, ${lng.toFixed(5)})`;
+        }
+
+        marker.on('dragend', function (e) {
+            const position = marker.getLatLng();
+            updateLocation(position.lat, position.lng);
+        });
+
+        map.on('click', function (e) {
+            marker.setLatLng(e.latlng);
+            updateLocation(e.latlng.lat, e.latlng.lng);
+        });
+
+        // --- WHATSAPP FORM SUBMISSION LOGIC ---
         function submitToWhatsApp(event) {
-            // Mencegah form untuk reload halaman
             event.preventDefault();
             
-            // Ambil nilai dari setiap input
             const name = document.getElementById('name').value;
+            const instagram = document.getElementById('instagram').value;
             const phone = document.getElementById('phone').value;
             const date = document.getElementById('date').value;
             const categoryElement = document.getElementById('category');
             const categoryText = categoryElement.options[categoryElement.selectedIndex].text;
             const message = document.getElementById('message').value;
+            const alamat = document.getElementById('alamat').value;
 
-            // ==========================================
-            // PENTING: Ganti nomor di bawah ini dengan nomor WhatsApp Anda!
-            // Format harus menggunakan kode negara (62 untuk Indonesia) tanpa tanda '+' atau awalan '0'
+            // Nomor WhatsApp Tujuan
             const waNumber = "6285283003535"; 
-            // ==========================================
 
             // Susun template pesan untuk WhatsApp
-            let waText = `Halo Elegance MUA, saya tertarik untuk booking jasa makeup.%0A%0A`;
+            let waText = `Halo Henaa MUA, saya tertarik untuk booking jasa makeup.%0A%0A`;
             waText += `*Detail Klien:*%0A`;
-            waText += `- Nama: ${name}%0A`;
-            waText += `- No. Kontak: ${phone}%0A`;
-            waText += `- Tanggal Acara: ${date}%0A`;
-            waText += `- Layanan: ${categoryText}%0A%0A`;
+            waText += `- Nama: ${encodeURIComponent(name)}%0A`;
+            waText += `- No. Kontak: ${encodeURIComponent(phone)}%0A`;
+            waText += `- Tanggal Acara: ${encodeURIComponent(date)}%0A`;
+            waText += `- Layanan: ${encodeURIComponent(categoryText)}%0A`;
+            waText += `- Instagram: ${encodeURIComponent(instagram)}%0A`;
+            waText += `- Alamat: ${encodeURIComponent(alamat)}%0A`;
+            waText += `- Titik Google Maps: ${encodeURIComponent(selectedMapsUrl)}%0A%0A`;
             
             if (message.trim() !== "") {
-                waText += `*Pesan/Request Tambahan:*%0A${message}%0A%0A`;
+                waText += `*Pesan/Request Tambahan:*%0A${encodeURIComponent(message)}%0A%0A`;
             }
             
+            waText += `*Note :*%0A`;
+            waText += `- Booking DP 100K%0A`;
+            waText += `- Include Hijabdo%0A`;
+            waText += `- Softlens %2B50K%0A`;
+            waText += `*Transfer :* BCA 0380841126 a.n. Heina Ismaya%0A%0A`;
             waText += `Mohon info ketersediaan jadwalnya ya. Terima kasih!`;
 
-            // Buat URL API WhatsApp lalu buka di tab baru
             const waURL = `https://wa.me/${waNumber}?text=${waText}`;
             window.open(waURL, '_blank');
         }
